@@ -7,8 +7,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using System;
-using ToDoApp.BusinessLayer.Mappers;
-using ToDoApp.BusinessLayer.Services;
 using ToDoApp.DataAccessLayer;
 
 namespace ToDoApp.Api
@@ -27,16 +25,12 @@ namespace ToDoApp.Api
         {
 
             services.AddControllers();
-            services.AddAutoMapper(new[]{
-               typeof(ToDoMapperProfile).Assembly
-            });
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ToDoApp", Version = "v1" });
             });
 
-            services.AddScoped<ITodoService, ToDoService>();
 
             var connectionStringDb = Configuration["Database:localhost"];
 
