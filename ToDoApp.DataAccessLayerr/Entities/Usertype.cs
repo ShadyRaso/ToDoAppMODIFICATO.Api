@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ToDoApp.BusinessLayer.Models
+namespace ToDoApp.DataAccessLayer.Entities
 {
-    internal class ProfileDTO
+    public enum Usertype
     {
+        ADMIN = 0, USER = 1
     }
 }

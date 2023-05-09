@@ -23,9 +23,10 @@ namespace ToDoApp.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<DataContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddControllers();
-
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ToDoApp", Version = "v1" });
@@ -34,7 +35,7 @@ namespace ToDoApp.Api
 
             var connectionStringDb = Configuration["Database:localhost"];
 
-            services.AddDbContext<TodoappContext>(options =>
+            services.AddDbContext<DataContext>(options =>
             {
                 options.UseSqlServer(connectionStringDb, providerOptions =>
                 {
@@ -56,7 +57,7 @@ namespace ToDoApp.Api
 
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
-                var context = serviceScope.ServiceProvider.GetRequiredService<TodoappContext>();
+                var context = serviceScope.ServiceProvider.GetRequiredService<DataContext>();
                 context.Database.Migrate();
             }
 
