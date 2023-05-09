@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using System;
@@ -33,6 +35,18 @@ namespace ToDoApp.Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ToDoApp", Version = "v1" });
             });
             services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).
+                AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8
+                        .GetBytes(Configuration.GetSection("AppSettings:Token").Value!)),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                });
 
             var connectionStringDb = Configuration["Database:localhost"];
 
@@ -65,11 +79,12 @@ namespace ToDoApp.Api
             app.UseRouting();
 
             app.UseSerilogRequestLogging();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-               // endpoints.MapControllers();
+                endpoints.MapControllers();
             });
         }
     }

@@ -22,7 +22,15 @@ namespace ToDoApp.Api.Controllers
             var response = await _authRepo.Register(
                 new User { Username = request.Username },request.Password);
             if(response==0)
-                return BadRequest(response);
+                return BadRequest("Username già in uso.");
+            return Ok(response);
+        }
+
+        [HttpPost("Login")]
+        public async Task<ActionResult<string>> Login(UserLoginDTO request)
+        {
+            string response = await _authRepo.Login(request.Username, request.Password);
+            if(response.Length < 20) return BadRequest(response);
             return Ok(response);
         }
     }
