@@ -8,7 +8,7 @@ using ToDoApp.DataAccessLayer.Entities;
 
 namespace ToDoApp.DataAccessLayer.Auth
 {
-    internal class AuthRepository : IAuthRepository
+    public class AuthRepository : IAuthRepository
     {
         private readonly DataContext _context;
         public AuthRepository(DataContext context)

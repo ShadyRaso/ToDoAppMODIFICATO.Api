@@ -8,6 +8,7 @@ using Microsoft.OpenApi.Models;
 using Serilog;
 using System;
 using ToDoApp.DataAccessLayer;
+using ToDoApp.DataAccessLayer.Auth;
 
 namespace ToDoApp.Api
 {
@@ -23,15 +24,15 @@ namespace ToDoApp.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+           // services.AddDbContext<DataContext>(options =>
+            //options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ToDoApp", Version = "v1" });
             });
-
+            services.AddScoped<IAuthRepository, AuthRepository>();
 
             var connectionStringDb = Configuration["Database:localhost"];
 
@@ -68,7 +69,7 @@ namespace ToDoApp.Api
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+               // endpoints.MapControllers();
             });
         }
     }
