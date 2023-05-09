@@ -1,21 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ToDoApp.DataAccessLayer.Entities
 {
-    public class User
+    
+    public class EventType
     {
         [Key]
         public int Id { get; set; }
+
+        [DisallowNull]
+        public string Name { get; set; }
+
         [Required]
-        public string Username { get; set; }
-        [Required]
-        public byte[] PasswordHash { get; set; } = new byte[0];
-        public byte[] PasswordSalt { get; set; } = new byte[0];
-        public Usertype Usertype { get; set; } = Usertype.USER;
+        public int EntrantNumber { get; set; }
+        [Required, NotNull]
+        public byte[] ProfileImage { get; set; }
     }
 }

@@ -11,9 +11,9 @@ using ToDoApp.DataAccessLayer;
 
 namespace ToDoApp.DataAccessLayer.Migrations
 {
-    [DbContext(typeof(TodoappContext))]
-    [Migration("20230509101814_Profile")]
-    partial class Profile
+    [DbContext(typeof(DataContext))]
+    [Migration("20230509131618_EVENT")]
+    partial class EVENT
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,25 @@ namespace ToDoApp.DataAccessLayer.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("ToDoApp.DataAccessLayer.Entities.EventType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("EntrantNumber")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EventTypes");
+                });
 
             modelBuilder.Entity("ToDoApp.DataAccessLayer.Entities.Profile", b =>
                 {

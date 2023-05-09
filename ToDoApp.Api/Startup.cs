@@ -34,7 +34,7 @@ namespace ToDoApp.Api
 
             var connectionStringDb = Configuration["Database:localhost"];
 
-            services.AddDbContext<TodoappContext>(options =>
+            services.AddDbContext<DataContext>(options =>
             {
                 options.UseSqlServer(connectionStringDb, providerOptions =>
                 {
@@ -56,7 +56,7 @@ namespace ToDoApp.Api
 
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
-                var context = serviceScope.ServiceProvider.GetRequiredService<TodoappContext>();
+                var context = serviceScope.ServiceProvider.GetRequiredService<DataContext>();
                 context.Database.Migrate();
             }
 
