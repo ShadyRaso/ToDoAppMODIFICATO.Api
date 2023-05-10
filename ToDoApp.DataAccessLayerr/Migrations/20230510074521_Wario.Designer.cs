@@ -12,8 +12,8 @@ using ToDoApp.DataAccessLayer;
 namespace ToDoApp.DataAccessLayer.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230509131941_event2")]
-    partial class event2
+    [Migration("20230510074521_Wario")]
+    partial class Wario
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,10 +50,6 @@ namespace ToDoApp.DataAccessLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("ProfileImage")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -81,9 +77,31 @@ namespace ToDoApp.DataAccessLayer.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<byte[]>("ProfileImage")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("EventTypes");
+                });
+
+            modelBuilder.Entity("ToDoApp.DataAccessLayer.Entities.Player", b =>
+                {
+                    b.Property<int?>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Team")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasIndex("EventId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Player");
                 });
 
             modelBuilder.Entity("ToDoApp.DataAccessLayer.Entities.Profile", b =>
@@ -114,7 +132,7 @@ namespace ToDoApp.DataAccessLayer.Migrations
                     b.ToTable("Profiles");
                 });
 
-            modelBuilder.Entity("ToDoApp.DataAccessLayer.Entities.User", b =>
+            modelBuilder.Entity("ToDoApp.DataAccessLayer.Entities.Users", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -122,12 +140,24 @@ namespace ToDoApp.DataAccessLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Name")
+                    b.Property<byte[]>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Usertype")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("ToDoApp.DataAccessLayer.Entities.Event", b =>
@@ -138,13 +168,28 @@ namespace ToDoApp.DataAccessLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ToDoApp.DataAccessLayer.Entities.User", "Host")
+                    b.HasOne("ToDoApp.DataAccessLayer.Entities.Users", "Host")
                         .WithMany()
                         .HasForeignKey("HostId");
 
                     b.Navigation("EventType");
 
                     b.Navigation("Host");
+                });
+
+            modelBuilder.Entity("ToDoApp.DataAccessLayer.Entities.Player", b =>
+                {
+                    b.HasOne("ToDoApp.DataAccessLayer.Entities.Event", "Event")
+                        .WithMany()
+                        .HasForeignKey("EventId");
+
+                    b.HasOne("ToDoApp.DataAccessLayer.Entities.Users", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Event");
+
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }
