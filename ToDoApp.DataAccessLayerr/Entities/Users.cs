@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ToDoApp.DataAccessLayer.Entities
 {
-    public class User
+    public class Users
     {
         [Key]
         public int Id { get; set; }
@@ -15,6 +15,7 @@ namespace ToDoApp.DataAccessLayer.Entities
         public string Username { get; set; }
         [Required]
         public byte[] PasswordHash { get; set; } = new byte[0];
+        [Required]
         public byte[] PasswordSalt { get; set; } = new byte[0];
         public Usertype Usertype { get; set; } = Usertype.USER;
     }

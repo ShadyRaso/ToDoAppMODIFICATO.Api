@@ -10,6 +10,6 @@ public partial class DataContext : DbContext
     {
     }
 
-    public DbSet<User> Users => Set<User>();
+    public DbSet<Users> Users => Set<Users>();
 
 }

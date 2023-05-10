@@ -9,7 +9,7 @@ namespace ToDoApp.DataAccessLayer.Auth
 {
     public interface IAuthRepository
     {
-        Task<int> Register(User user, string password);
+        Task<int> Register(Users user, string password);
         Task<string> Login(string userName, string password);
         Task<bool> UserExists(string userName);
     }

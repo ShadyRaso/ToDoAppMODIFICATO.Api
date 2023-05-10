@@ -38,7 +38,7 @@ namespace ToDoApp.DataAccessLayer.Auth
             }
         }
 
-        public async Task<int> Register(User user, string password)
+        public async Task<int> Register(Users user, string password)
         {
             //Controlla se lo User esiste, andrebbe implementata una ServiceResponse
             if(await UserExists(user.Username))
@@ -85,7 +85,7 @@ namespace ToDoApp.DataAccessLayer.Auth
             }
         }
 
-        private string CreateToken (User user)
+        private string CreateToken (Users user)
         {
             var claims = new List<Claim>
             {

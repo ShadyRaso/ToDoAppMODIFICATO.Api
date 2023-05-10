@@ -20,7 +20,7 @@ namespace ToDoApp.Api.Controllers
         public async Task<ActionResult<int>> Register(UserRegisterDTO request)
         {
             var response = await _authRepo.Register(
-                new User { Username = request.Username },request.Password);
+                new Users { Username = request.Username },request.Password);
             if(response==0)
                 return BadRequest("Username già in uso.");
             return Ok(response);
