@@ -6,6 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ToDoApp.DataAccessLayer.Migrations;
 
 namespace ToDoApp.DataAccessLayer.Entities
 {
@@ -28,8 +29,6 @@ namespace ToDoApp.DataAccessLayer.Entities
         [Required, NotNull]
         public string Location { get; set; }
         public User Host { get; set; }
- 
-
 
     }
 }
